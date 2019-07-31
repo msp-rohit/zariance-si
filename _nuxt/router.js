@@ -2,14 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { interopDefault } from './utils'
 
-const _2a105ae1 = () => interopDefault(import('../pages/list.vue' /* webpackChunkName: "pages/list" */))
-const _63451053 = () => interopDefault(import('../pages/companies/_companies.vue' /* webpackChunkName: "pages/companies/_companies" */))
-const _8caa66d4 = () => interopDefault(import('../pages/companies/_companies/index.vue' /* webpackChunkName: "pages/companies/_companies/index" */))
-const _1233a8ac = () => interopDefault(import('../pages/companies/_companies/business.vue' /* webpackChunkName: "pages/companies/_companies/business" */))
-const _3ec78ff6 = () => interopDefault(import('../pages/companies/_companies/hr.vue' /* webpackChunkName: "pages/companies/_companies/hr" */))
-const _31fe0782 = () => interopDefault(import('../pages/companies/_companies/news.vue' /* webpackChunkName: "pages/companies/_companies/news" */))
-const _653fe667 = () => interopDefault(import('../pages/search/_term.vue' /* webpackChunkName: "pages/search/_term" */))
-const _336f811f = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _5bf63a93 = () => interopDefault(import('../pages/list.vue' /* webpackChunkName: "pages/list" */))
+const _39a94c05 = () => interopDefault(import('../pages/companies/_companies.vue' /* webpackChunkName: "pages/companies/_companies" */))
+const _0ccbfac8 = () => interopDefault(import('../pages/companies/_companies/index.vue' /* webpackChunkName: "pages/companies/_companies/index" */))
+const _171b158c = () => interopDefault(import('../pages/companies/_companies/business.vue' /* webpackChunkName: "pages/companies/_companies/business" */))
+const _39065f04 = () => interopDefault(import('../pages/companies/_companies/hr.vue' /* webpackChunkName: "pages/companies/_companies/hr" */))
+const _4cc83fcd = () => interopDefault(import('../pages/companies/_companies/news.vue' /* webpackChunkName: "pages/companies/_companies/news" */))
+const _d32817ce = () => interopDefault(import('../pages/search/_term.vue' /* webpackChunkName: "pages/search/_term" */))
+const _3e4597ad = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 Vue.use(Router)
 
@@ -87,35 +87,35 @@ export function createRouter() {
 
     routes: [{
       path: "/list",
-      component: _2a105ae1,
+      component: _5bf63a93,
       name: "list"
     }, {
       path: "/companies/:companies?",
-      component: _63451053,
+      component: _39a94c05,
       children: [{
         path: "",
-        component: _8caa66d4,
+        component: _0ccbfac8,
         name: "companies-companies"
       }, {
         path: "business",
-        component: _1233a8ac,
+        component: _171b158c,
         name: "companies-companies-business"
       }, {
         path: "hr",
-        component: _3ec78ff6,
+        component: _39065f04,
         name: "companies-companies-hr"
       }, {
         path: "news",
-        component: _31fe0782,
+        component: _4cc83fcd,
         name: "companies-companies-news"
       }]
     }, {
       path: "/search/:term?",
-      component: _653fe667,
+      component: _d32817ce,
       name: "search-term"
     }, {
       path: "/",
-      component: _336f811f,
+      component: _3e4597ad,
       name: "index"
     }],
 

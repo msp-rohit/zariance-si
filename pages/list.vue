@@ -2,14 +2,17 @@
   <div class="container">
     <div class="section" v-if="!meta.isLocal">
       <div class="columns is-multiline">
-        <h1 class="section__title column is-12">Zariance Sales Intelligence - Prospect Explorer</h1>
+        <h1 class="section__title section__title--logo column is-12">
+          <img src="https://assets.mspimages.in/zariance/logo/logo.svg" />
+          <span>Sales Intelligence - Prospect Explorer</span>
+        </h1>
         <div class="filter-bar column is-12">
           <div class="filter-bar__item">
-              <span class="filter-bar__title">Total Records: </span>
-              <span
-                class="filter-bar__option filter-bar__option--nc"
-              >{{companies.meta.totalRecords.toLocaleString()}}</span>
-            </div>
+            <span class="filter-bar__title">Total Records:</span>
+            <span
+              class="filter-bar__option filter-bar__option--nc"
+            >{{companies.meta.totalRecords.toLocaleString()}}</span>
+          </div>
           <template v-for="(filterGroup, index) in namedSelectedFilters">
             <div class="filter-bar__item" :key="index" v-if="filterGroup.options.length>0">
               <span class="filter-bar__title">{{filterGroup.label}}</span>
@@ -63,16 +66,17 @@
                 <FallbackIcon v-else :chars="company.name" />
               </div>
               <div class="company-item__info column is-11">
-                <div class="company-item__name is-capitalized">{{company.name}}</div>
+                <nuxt-link
+                  :to="'/companies/'+company.url"
+                  class="company-item__name is-capitalized"
+                >{{company.name}} &rarr;</nuxt-link>
                 <div class="company-item__description">{{company.description}}</div>
                 <div class="company-item__kvp columns is-multiline">
-                  <div
-                    class="company-item__kvp-key column is-6"
-                    v-if="company.url"
-                  >
+                  <div class="company-item__kvp-key column is-6" v-if="company.url">
                     Website:
-                    <a :href="'http://'+company.url"
-                        target="_blank"
+                    <a
+                      :href="'http://'+company.url"
+                      target="_blank"
                       class="company-item__kvp-link has-text-weight-medium"
                     >{{company.url}}</a>
                   </div>
@@ -89,14 +93,9 @@
                       class="has-text-weight-medium"
                     >{{company.hq_location.location}}</span>
                   </div>
-                  <div
-                    class="company-item__kvp-key column is-6"
-                    v-if="company.foundation_year"
-                  >
+                  <div class="company-item__kvp-key column is-6" v-if="company.foundation_year">
                     Year Founded:
-                    <span
-                      class="has-text-weight-medium"
-                    >{{company.foundation_year}}</span>
+                    <span class="has-text-weight-medium">{{company.foundation_year}}</span>
                   </div>
                 </div>
               </div>
@@ -117,7 +116,7 @@
       </div>
     </div>
     <div class="section" v-else>
-        <div class="section__big-title">Loading...</div>
+      <div class="section__big-title">Loading...</div>
     </div>
   </div>
 </template>
@@ -259,11 +258,13 @@ export default {
     this.loadData();
   },
   methods: {
-    navigateToPage: function(pageIndex){
-      this.selectedFilters = _.extend(_.cloneDeep(this.selectedFilters), {page: pageIndex})
+    navigateToPage: function(pageIndex) {
+      this.selectedFilters = _.extend(_.cloneDeep(this.selectedFilters), {
+        page: pageIndex
+      });
       this.loadNewData();
     },
-    loadNewData: function(){
+    loadNewData: function() {
       this.$router.push("?" + this.queryParam);
       this.loadData();
     },
@@ -384,6 +385,18 @@ export default {
 </script>
 
 <style lang="sass">
+.section__title--logo
+  line-height: 36px
+  vertical-align: text-bottom
+  img
+    line-height: 36px
+    margin-right: 5px
+    vertical-align: text-bottom
+  span
+    line-height: 36px
+    display: inline-block
+    vertical-align: bottom
+    font-size: 1.6em
 .filter
     border-right: 1px solid #dfe1e8
     color: #444
