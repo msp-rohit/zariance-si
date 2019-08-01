@@ -1,12 +1,24 @@
 <template>
-  <div :style="divStyle" class="fallback-icon">{{text}}</div>
+  <div class="fallback-icon-wrapper">
+    <span class="fallback-icon" :style="divStyle" v-if="imgstatus!=='loaded'">{{text}}</span>
+    <img
+      v-if="imgstatus!=='failed'"
+      class="logo-icon"
+      :src="imgSrc"
+      @error="imgerror"
+      @load="loaded"
+    />
+  </div>
 </template>
 
 <script>
 export default {
   name: "FallbackIcon",
-  props: ["chars"],
+  props: ["chars", "img"],
   computed: {
+    imgSrc() {
+      return this.img;
+    },
     text() {
       try {
         const charParts = this.chars.split(/[\s\-]+/);
@@ -25,6 +37,7 @@ export default {
   },
   data() {
     return {
+      imgstatus: "loading",
       divStyle: {
         backgroundColor: this.getRandomColor()
       }
@@ -39,13 +52,37 @@ export default {
       var s = this.rand(0, 100);
       var l = this.rand(0, 50);
       return "hsl(" + h + "," + s + "%," + l + "%)";
+    },
+    loaded: function() {
+      this.imgstatus = "loaded";
+    },
+    imgerror: function() {
+      this.imgstatus = "failed";
     }
   }
 };
 </script>
 
 <style lang="sass">
+    .logo-icon
+      position: absolute
+      top: 0
+      left: 0
+      z-index: 0
+    .fallback-icon-wrapper
+        position: relative
+        width: 42px
+        height: 42px
+        line-height: 42px
+        text-align: center
+        font-weight: 500
+        font-size: 18px
+        color: #fff
+        border-radius: 50%
+        text-transform: capitalize
+        display: inline-block
     .fallback-icon
+        position: relative
         background-color: #1a73e8
         width: 42px
         height: 42px

@@ -15,15 +15,16 @@
             <div class="column is-6">Team</div>
             <div class="column is-6 has-text-right">Employees</div>
           </div>
-          <div class="columns team-row" 
-              :class="{'team-row--important': team.isImportant}"
-              v-for="(team, index) in teams" 
-              :key="index"
-              >
+          <div
+            class="columns team-row"
+            :class="{'team-row--important': team.isImportant}"
+            v-for="(team, index) in teams"
+            :key="index"
+          >
             <div class="column is-8">
               <i class="team-row__icon hr__contact-icon material-icons md-24">{{team.icon}}</i>
               {{team.department}}
-              </div>
+            </div>
             <div class="column is-4 has-text-right">{{formatNumber(team.size)}}</div>
           </div>
         </div>
@@ -38,12 +39,12 @@ import HorizontalBar from "./HorizontalBarChart.js";
 const TeamIcon = {
   iconSet: {
     engineering: `build`,
-    sales: 'shopping_cart',
-    support: 'contact_mail',
-    operations: 'directions_run',
-    product: 'extension',
-    marketing: 'screen_share',
-    default: 'contact_mail'
+    sales: "shopping_cart",
+    support: "contact_mail",
+    operations: "directions_run",
+    product: "extension",
+    marketing: "screen_share",
+    default: "contact_mail"
   },
   get: function(propName) {
     return this.iconSet[propName.toLowerCase()] || this.iconSet["default"];
@@ -57,21 +58,21 @@ export default {
   computed: {
     teamtable: function() {
       let totalSize = 0;
-      const teams = this.teams.map(team=>{
+      const teams = this.teams.map(team => {
         totalSize += team.size;
         team.icon = TeamIcon.get(team.department);
         return team;
       });
       teams.push({
-          department: 'Total',
-          size: totalSize,
-          isImportant: true
+        department: "Total",
+        size: totalSize,
+        isImportant: true
       });
 
       return teams;
     }
   },
-  props: ['teams'],
+  props: ["teams"],
   data() {
     return {
       isLocal: true,
@@ -107,21 +108,18 @@ export default {
       }
     };
   },
-  created(){
-      this.fillData();
+  created() {
+    this.fillData();
   },
-  updated(){
-    if(this.isLocal){
+  updated() {
+    if (this.isLocal) {
       this.isLocal = false;
       this.fillData();
     }
   },
   methods: {
     formatNumber: function(n) {
-      return n.toLocaleString(
-        undefined,
-        { minimumFractionDigits: 0 }
-      );
+      return n && n.toLocaleString(undefined, { minimumFractionDigits: 0 });
     },
     range(start, end, step = 1) {
       const len = Math.floor((end - start) / step) + 1;
@@ -131,12 +129,12 @@ export default {
     },
     fillData() {
       this.datacollection = {
-        labels: this.teams.map(team=>team.department),
+        labels: this.teams.map(team => team.department),
         datasets: [
           {
             label: "Employee count by teams",
             backgroundColor: "rgba(27, 114, 233, .5)",
-            data: this.teams.map(team=>team.size)
+            data: this.teams.map(team => team.size)
           }
         ]
       };

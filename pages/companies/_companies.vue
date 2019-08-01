@@ -4,14 +4,27 @@
       <CompanyHeader :company="company.basic" />
       <div class="segment columns">
         <template v-for="(metric, index) in topMetrics">
-          <div class="metric column is-4" :key="index" v-if="metric.value && metric.label">
+          <div class="metric column is-3" :key="'top'+index" v-if="metric.value && metric.label">
             <span
               class="metric__icon icon is-left"
               :style="'color:'+metric.color"
               v-html="metric.icon"
             ></span>
             <span class="metric__data">
-              <span class="metric__value">{{metric.value}}</span>
+              <span class="metric__value">{{(metric.value.location || metric.value) | millify}}</span>
+              <span class="metric__key">{{metric.label}}</span>
+            </span>
+          </div>
+        </template>
+        <template v-for="(metric, index) in finMetrics">
+          <div class="metric column is-3" :key="'fin'-index" v-if="metric.value && metric.label">
+            <span
+              class="metric__icon icon is-left"
+              :style="'color:'+metric.color"
+              v-html="metric.icon"
+            ></span>
+            <span class="metric__data">
+              <span class="metric__value">{{metric.value | millify}}</span>
               <span class="metric__key">{{metric.label}}</span>
             </span>
           </div>
@@ -33,6 +46,7 @@ const PropIcons = {
     headquarters: '<i class="material-icons md-30">location_on</i>',
     employee_count: '<i class="material-icons md-30">face</i>',
     listing_status: '<i class="material-icons md-30">location_city</i>',
+    funding: `<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#000000" d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z" /></svg>`,
     default: '<i class="material-icons md-30">face</i>'
   },
   get: function(propName) {
@@ -51,6 +65,21 @@ export default {
       companyName: this.companyName
     });
   },
+  filters: {
+    millify: number => {
+      const _number = Number(number);
+      if (isNaN(_number)) return number;
+      if (_number < 1e3) return _number.toLocaleString();
+
+      const units = ["k", "M", "B", "T"];
+      const order = Math.floor(Math.log(_number) / Math.log(1000));
+      const unitName = units[order - 1];
+      const num = Number((_number / 1000 ** order).toPrecision(3));
+
+      // output number remainder + unitName
+      return num.toLocaleString() + unitName;
+    }
+  },
   computed: {
     navigation() {
       return this.subRoutes.map(route => {
@@ -63,6 +92,13 @@ export default {
     },
     topMetrics() {
       return this.company.business.topMetrics.map(metric => {
+        metric.label = metric.key.replace("_", " ");
+        metric.icon = PropIcons.get(metric.key);
+        return metric;
+      });
+    },
+    finMetrics() {
+      return this.company.business.financialMetrics.map(metric => {
         metric.label = metric.key.replace("_", " ");
         metric.icon = PropIcons.get(metric.key);
         return metric;

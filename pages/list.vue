@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <!-- <Search/> -->
     <div class="section" v-if="!meta.isLocal">
       <div class="columns is-multiline">
         <h1 class="section__title section__title--logo column is-12">
@@ -62,8 +63,10 @@
               :key="index"
             >
               <div class="company-item__image-wrapper column is-1">
-                <img :src="company.image" class="company-item__image" v-if="company.image" />
-                <FallbackIcon v-else :chars="company.name" />
+                <FallbackIcon
+                  :chars="company.name"
+                  :img="'https://logo.clearbit.com/'+company.url"
+                />
               </div>
               <div class="company-item__info column is-11">
                 <nuxt-link
@@ -133,6 +136,7 @@
 <script>
 import FallbackIcon from "~/components/FallbackIcon.vue";
 
+import Search from "~/components/Search.vue";
 import style from "~/assets/style/index.sass";
 
 import _ from "lodash";
@@ -142,7 +146,8 @@ import queryString from "query-string";
 export default {
   name: "Technology",
   components: {
-    FallbackIcon
+    FallbackIcon,
+    Search
   },
   watch: {},
   computed: {

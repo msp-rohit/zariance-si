@@ -1,10 +1,15 @@
 <template>
   <div class="company-head columns">
     <div class="column is-1">
-      <img
+      <FallbackIcon
+        v-if="company.name"
+        :chars="company.name"
+        :img="'https://logo.clearbit.com/'+company.url"
+      />
+      <!-- <img
         class="company-head__img"
         :src="company.logo || 'https://logo.clearbit.com/'+company.url"
-      />
+      />-->
     </div>
     <div class="column is-8">
       <div class="company-head__name">{{company.name}}</div>
@@ -15,7 +20,7 @@
     </div>
     <div class="column is-3">
       <div class="company-head__info-wrapper">
-        <a class="company-head__info" target="_blank" :href="company.url">
+        <a class="company-head__info" target="_blank" :href="'http://'+company.url">
           <span class="icon is-small is-left">
             <i class="material-icons md-24">link</i>
           </span>
@@ -38,9 +43,13 @@
   </div>
 </template>
 <script>
+import FallbackIcon from "~/components/FallbackIcon.vue";
 export default {
   name: "CompanyHeader",
-  props: ["company"]
+  props: ["company"],
+  components: {
+    FallbackIcon
+  }
 };
 </script>
 <style lang="sass">
