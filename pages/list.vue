@@ -68,34 +68,43 @@
               <div class="company-item__info column is-11">
                 <nuxt-link
                   :to="'/companies/'+company.url"
-                  class="company-item__name is-capitalized"
+                  class="company-item__name is-lowercase"
                 >{{company.name}} &rarr;</nuxt-link>
                 <div class="company-item__description">{{company.description}}</div>
                 <div class="company-item__kvp columns is-multiline">
-                  <div class="company-item__kvp-key column is-6" v-if="company.url">
+                  <div class="company-item__kvp-key column is-6">
                     Website:
                     <a
+                      v-if="company.url"
                       :href="'http://'+company.url"
                       target="_blank"
                       class="company-item__kvp-link has-text-weight-medium"
                     >{{company.url}}</a>
+                    <span v-else>Not Available</span>
                   </div>
                   <div class="company-item__kvp-key column is-6">
                     Traffic:
-                    <span class="has-text-weight-medium">{{millify(company.month_6)}}</span>
-                  </div>
-                  <div
-                    class="company-item__kvp-key column is-6"
-                    v-if="company.hq_location && company.hq_location.location"
-                  >
-                    Headquarters:
                     <span
                       class="has-text-weight-medium"
-                    >{{company.hq_location.location}}</span>
+                      v-if="company.month_6 && company.month_6>0"
+                    >{{millify(company.month_6)}}</span>
+                    <span v-else>Not Available</span>
                   </div>
-                  <div class="company-item__kvp-key column is-6" v-if="company.foundation_year">
+                  <div class="company-item__kvp-key column is-6">
+                    Headquarters:
+                    <span
+                      v-if="company.hq_location && company.hq_location.location"
+                      class="has-text-weight-medium"
+                    >{{company.hq_location.location}}</span>
+                    <span v-else>Not Available</span>
+                  </div>
+                  <div class="company-item__kvp-key column is-6">
                     Year Founded:
-                    <span class="has-text-weight-medium">{{company.foundation_year}}</span>
+                    <span
+                      class="has-text-weight-medium"
+                      v-if="company.foundation_year"
+                    >{{company.foundation_year}}</span>
+                    <span v-else>Not Available</span>
                   </div>
                 </div>
               </div>
